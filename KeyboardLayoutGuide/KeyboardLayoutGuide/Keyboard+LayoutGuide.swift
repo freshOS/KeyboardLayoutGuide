@@ -44,7 +44,7 @@ public class Keyboard {
         keyboardLayoutGuide.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
     
-    public func keyboardWillChange(block: @escaping (CGFloat) -> Void) {
+    private func keyboardWillChange(block: @escaping (CGFloat) -> Void) {
         keyboardWillChangeBlock = block
     }
     
