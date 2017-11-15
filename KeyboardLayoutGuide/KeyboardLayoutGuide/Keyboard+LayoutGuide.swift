@@ -8,16 +8,19 @@
 
 import UIKit
 
-public class Keyboard {
+
+public class KeyboardLayoutGuide: UILayoutGuide {
     
-    public var topAnchor: NSLayoutYAxisAnchor { return keyboardLayoutGuide.topAnchor }
-    public var height: CGFloat = 0
+    private var height: CGFloat = 0
+    private var token: NSKeyValueObservation? = nil
+    private var token2: NSKeyValueObservation? = nil
     
-    private let keyboardLayoutGuide = UILayoutGuide()
-    private var view: UIView?
-    private var keyboardWillChangeBlock:((CGFloat) -> Void)?
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    public init() {
+    public override init() {
+        super.init()
         let nc = NotificationCenter.default
         nc.addObserver(self,
                        selector: #selector(keyboardWillShow(_:)),
@@ -27,47 +30,58 @@ public class Keyboard {
                        selector: #selector(keyboardWillHide(_:)),
                        name: .UIKeyboardWillHide,
                        object: nil)
+        
+        
+        token = observe(\.owningView) { [weak self] object, _ in
+            if let view = object.owningView {
+                object.setUp(inView: view)
+                self?.token2 = view.observe(\.safeAreaInsets) { object, change in
+                    self?.viewSafeAreaInsetsDidChange()
+                }
+            }
+            
+        }
     }
     
-    public func setUpLayoutGuide(inView view: UIView) {
-        self.view = view
-        view.addLayoutGuide(keyboardLayoutGuide)
-        
+    private func setUp(inView view: UIView) {
         if #available(iOS 11.0, *) {
             height = view.safeAreaInsets.bottom
         } else {
             height = 0
         }
-        keyboardLayoutGuide.heightAnchor.constraint(equalToConstant: height).isActive = true
-        keyboardLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        keyboardLayoutGuide.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        keyboardLayoutGuide.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+        bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
     
-    private func keyboardWillChange(block: @escaping (CGFloat) -> Void) {
-        keyboardWillChangeBlock = block
+    private func viewSafeAreaInsetsDidChange() {
+        if #available(iOS 11.0, *) {
+            height = owningView?.safeAreaInsets.bottom ?? 0
+        }
+        updateHeightConstraint()
     }
     
     @objc
     func keyboardWillShow(_ note: Notification) {
-        if let h = note.keyboardHeight {
-            height = h
-            keyboardLayoutGuide.heightConstraint?.constant = height
-        }
+        height = note.keyboardHeight ?? height
+        updateHeightConstraint()
         animate(note)
-        keyboardWillChangeBlock?(height)
     }
     
     @objc
     func keyboardWillHide(_ note: Notification) {
         if #available(iOS 11.0, *) {
-            height = view?.safeAreaInsets.bottom ?? 0
+            height = owningView?.safeAreaInsets.bottom ?? 0
         } else {
             height = 0
         }
-        keyboardLayoutGuide.heightConstraint?.constant = height
+        updateHeightConstraint()
         animate(note)
-        keyboardWillChangeBlock?(height)
+    }
+    
+    private func updateHeightConstraint() {
+        heightConstraint?.constant = height
     }
     
     private func animate(_ note: Notification) {
@@ -76,7 +90,7 @@ public class Keyboard {
                 return
         }
         UIView.animate(withDuration: animationDuration, delay: 0, options: animationCurve, animations: {
-            self.keyboardLayoutGuide.owningView?.layoutIfNeeded()
+            self.owningView?.layoutIfNeeded()
         }, completion: nil)
     }
     
@@ -100,18 +114,18 @@ public extension UILayoutGuide {
 }
 
 extension Notification {
-    
+
     var animationDuration: TimeInterval? {
         return (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double)
     }
-    
+
     var animationCurve: UIViewAnimationOptions? {
         guard let value = (userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int) else {
             return nil
         }
         return UIViewAnimationOptions(rawValue: UInt(value))
     }
-    
+
     var keyboardHeight: CGFloat? {
         guard let v = userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
@@ -119,3 +133,4 @@ extension Notification {
         return v.cgRectValue.size.height
     }
 }
+
