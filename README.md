@@ -8,20 +8,20 @@ import KeyboardLayoutGuide
 
 class ViewController: UIViewController {
 
-    // 1. Create a keyboard helper.
-    let keyboard = Keyboard()
+    // Create a keyboard layout guide.
+    let keyboardLayoutGuide = KeyboardLayoutGuide()
 
     @IBOutlet weak var button: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Add the layout guide in the view.
+        view.addLayoutGuide(keyboardLayoutGuide)
 
-        // 2. Initialize the layout guide in my view.
-        keyboard.setUpLayoutGuide(inView: view)
-
-        // 3. Constrain your button to the keyboard top Anchor
+        // Constrain your button to the keyboardLayoutGuide's top Anchor
         // the way you would do natively :)
-        button.bottomAnchor.constraint(equalTo: keyboard.topAnchor).isActive = true
+        button.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor).isActive = true
     }
 }
 ```
