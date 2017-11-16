@@ -5,13 +5,14 @@
 ![Platform: iOS 9+](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/Stevia/blob/master/LICENSE)
- [![Release version](https://img.shields.io/badge/release-1.0-blue.svg)]()
+ [![Release version](https://img.shields.io/badge/release-1.1-blue.svg)]()
 
 
 - [x] No Subclassing / Protocol inheritance / obscure overrides
 - [x] No more keyboard notification handling
 - [x] `UIKit` Friendly
 - [x] Takes `safeArea` into account
+- [x] Only animates if view is fully on screen
 
 ```swift
 import UIKit
