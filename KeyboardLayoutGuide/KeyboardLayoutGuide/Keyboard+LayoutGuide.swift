@@ -11,9 +11,7 @@ import UIKit
 
 public class KeyboardLayoutGuide: UILayoutGuide {
     
-    private var height: CGFloat = 0
     private var token: NSKeyValueObservation? = nil
-    private var token2: NSKeyValueObservation? = nil
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -21,6 +19,8 @@ public class KeyboardLayoutGuide: UILayoutGuide {
     
     public override init() {
         super.init()
+        
+        // Observe keyboardWillShow and keyboardWillHide notifications.
         let nc = NotificationCenter.default
         nc.addObserver(self,
                        selector: #selector(keyboardWillShow(_:)),
@@ -31,67 +31,53 @@ public class KeyboardLayoutGuide: UILayoutGuide {
                        name: .UIKeyboardWillHide,
                        object: nil)
         
-        
-        token = observe(\.owningView) { [weak self] object, _ in
+        // Observe owningView so that we can setup our layoutGuide
+        // once the user has called `view.addLayoutGuide`
+        token = observe(\.owningView) { object, _ in
             if let view = object.owningView {
                 object.setUp(inView: view)
-                self?.token2 = view.observe(\.safeAreaInsets) { object, change in
-                    self?.viewSafeAreaInsetsDidChange()
-                }
             }
-            
         }
     }
     
     private func setUp(inView view: UIView) {
-        if #available(iOS 11.0, *) {
-            height = view.safeAreaInsets.bottom
-        } else {
-            height = 0
-        }
-        heightAnchor.constraint(equalToConstant: height).isActive = true
-        bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        heightAnchor.constraint(equalToConstant: 0).isActive = true
         leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-    }
-    
-    private func viewSafeAreaInsetsDidChange() {
+        let viewBottomAnchor: NSLayoutYAxisAnchor!
         if #available(iOS 11.0, *) {
-            height = owningView?.safeAreaInsets.bottom ?? 0
+            viewBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor
+        } else {
+            viewBottomAnchor = view.bottomAnchor
         }
-        updateHeightConstraint()
+        bottomAnchor.constraint(equalTo: viewBottomAnchor).isActive = true
     }
     
     @objc
     func keyboardWillShow(_ note: Notification) {
-        height = note.keyboardHeight ?? height
-        updateHeightConstraint()
-        animate(note)
+        if var height = note.keyboardHeight {
+            if #available(iOS 11.0, *) {
+                height -= (owningView?.safeAreaInsets.bottom)!
+            }
+            heightConstraint?.constant = height
+            animate(note)
+        }
     }
     
     @objc
     func keyboardWillHide(_ note: Notification) {
-        if #available(iOS 11.0, *) {
-            height = owningView?.safeAreaInsets.bottom ?? 0
-        } else {
-            height = 0
-        }
-        updateHeightConstraint()
+        heightConstraint?.constant = 0
         animate(note)
     }
     
-    private func updateHeightConstraint() {
-        heightConstraint?.constant = height
-    }
-    
     private func animate(_ note: Notification) {
-        guard let animationDuration = note.animationDuration,
-            let animationCurve = note.animationCurve else {
-                return
-        }
-        UIView.animate(withDuration: animationDuration, delay: 0, options: animationCurve, animations: {
+        if isVisible(view: self.owningView!) {
             self.owningView?.layoutIfNeeded()
-        }, completion: nil)
+        } else {
+            UIView.performWithoutAnimation {
+                self.owningView?.layoutIfNeeded()
+            }
+        }
     }
     
     deinit {
@@ -101,7 +87,7 @@ public class KeyboardLayoutGuide: UILayoutGuide {
 
 // MARK: - Helpers
 
-public extension UILayoutGuide {
+extension UILayoutGuide {
     var heightConstraint: NSLayoutConstraint? {
         guard let target = owningView else { return nil }
         for c in target.constraints {
@@ -114,23 +100,25 @@ public extension UILayoutGuide {
 }
 
 extension Notification {
-
-    var animationDuration: TimeInterval? {
-        return (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double)
-    }
-
-    var animationCurve: UIViewAnimationOptions? {
-        guard let value = (userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int) else {
-            return nil
-        }
-        return UIViewAnimationOptions(rawValue: UInt(value))
-    }
-
     var keyboardHeight: CGFloat? {
         guard let v = userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
         return v.cgRectValue.size.height
     }
+}
+
+// Credits to John Gibb for this nice helper :)
+// https://stackoverflow.com/questions/1536923/determine-if-uiview-is-visible-to-the-user
+func isVisible(view: UIView) -> Bool {
+    func isVisible(view: UIView, inView: UIView?) -> Bool {
+        guard let inView = inView else { return true }
+        let viewFrame = inView.convert(view.bounds, from: view)
+        if viewFrame.intersects(inView.bounds) {
+            return isVisible(view: view, inView: inView.superview)
+        }
+        return false
+    }
+    return isVisible(view: view, inView: view.superview)
 }
 
