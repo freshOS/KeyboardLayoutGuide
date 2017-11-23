@@ -25,7 +25,7 @@ override func viewDidLoad() {
     super.viewDidLoad()
     
     // Pin your button to the keyboard
-    button.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor).isActive = true
+    button.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor).isActive = true
 }
 ```
 
