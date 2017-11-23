@@ -14,6 +14,8 @@ public extension UIView {
         static var keyboardLayoutGuide = "keyboardLayoutGuide"
     }
     
+    /// A layout guide representing the inset for the keyboard.
+    /// Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard.
     public var keyboardLayoutGuide: KeyboardLayoutGuide {
         get {
             if let obj = objc_getAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide) as? KeyboardLayoutGuide {
@@ -28,9 +30,7 @@ public extension UIView {
     }
 }
 
-public class KeyboardLayoutGuide: UILayoutGuide {
-    
-    private var token: NSKeyValueObservation? = nil
+open class KeyboardLayoutGuide: UILayoutGuide {
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -51,10 +51,12 @@ public class KeyboardLayoutGuide: UILayoutGuide {
         guard let view = owningView else {
             return
         }
-        heightAnchor.constraint(equalToConstant: 0).isActive = true
-        leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        let viewBottomAnchor: NSLayoutYAxisAnchor!
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: 0),
+            leftAnchor.constraint(equalTo: view.leftAnchor),
+            rightAnchor.constraint(equalTo: view.rightAnchor),
+            ])
+        let viewBottomAnchor: NSLayoutYAxisAnchor
         if #available(iOS 11.0, *) {
             viewBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor
         } else {
@@ -64,7 +66,7 @@ public class KeyboardLayoutGuide: UILayoutGuide {
     }
     
     @objc
-    func keyboardWillChangeFrame(_ note: Notification) {
+    private func keyboardWillChangeFrame(_ note: Notification) {
         if var height = note.keyboardHeight {
             if #available(iOS 11.0, *), height > 0 {
                 height -= (owningView?.safeAreaInsets.bottom)!
@@ -92,7 +94,7 @@ public class KeyboardLayoutGuide: UILayoutGuide {
 // MARK: - Helpers
 
 extension UILayoutGuide {
-    var heightConstraint: NSLayoutConstraint? {
+    internal var heightConstraint: NSLayoutConstraint? {
         guard let target = owningView else { return nil }
         for c in target.constraints {
             if let fi = c.firstItem as? UILayoutGuide, fi == self && c.firstAttribute == .height {
