@@ -15,7 +15,41 @@
 - [x] Takes `safeArea` into account
 - [x] Only animates if view is fully on screen
 
+## How to use it
+
+Simply constrain your views to the KeyboardLayoutGuide's top anchor the way you would do natively:
+
+
 ```swift
-button.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor).isActive = true
+override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    // Pin your button to the keyboard
+    button.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor).isActive = true
+}
 ```
-*Constrain your button to the keyboardLayoutGuide's top Anchor the way you would do natively :) *
+
+## Installation
+
+### CocoaPods
+
+To install `KeyboardLayoutGuide` via [CocoaPods](http://cocoapods.org), add the following line to your Podfile:
+
+```
+pod 'KeyboardLayoutGuide'
+```
+
+### Carthage
+
+To install `KeyboardLayoutGuide` via [Carthage](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos), add the following line to your Cartfile:
+
+```
+github "freshos/KeyboardLayoutGuide"
+```
+
+### Manually
+Just add `Keyboard+LayoutGuide.swift` to your Xcode project.
+
+## License
+
+`KeyboardLayoutGuide` is available under the MIT license. See the LICENSE file for more info.
