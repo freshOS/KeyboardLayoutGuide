@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Keyboard+LayoutGuide'
-  s.version          = "1.1.2"
+  s.version          = "1.2.0"
   s.summary          = "Apple's missing KeyboardLayoutGuide"
   s.homepage         = "https://github.com/s4cha/KeyboardLayoutGuide"
   s.license          = { :type => "MIT", :file => "LICENSE" }
