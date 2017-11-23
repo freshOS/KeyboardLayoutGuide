@@ -8,10 +8,29 @@
 
 import UIKit
 
-
-public class KeyboardLayoutGuide: UILayoutGuide {
+public extension UIView {
     
-    private var token: NSKeyValueObservation? = nil
+    private struct AssociatedKeys {
+        static var keyboardLayoutGuide = "keyboardLayoutGuide"
+    }
+    
+    /// A layout guide representing the inset for the keyboard.
+    /// Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard.
+    public var keyboardLayoutGuide: KeyboardLayoutGuide {
+        get {
+            if let obj = objc_getAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide) as? KeyboardLayoutGuide {
+                return obj
+            }
+            let new = KeyboardLayoutGuide()
+            addLayoutGuide(new)
+            new.setUp()
+            objc_setAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide, new as Any, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return new
+        }
+    }
+}
+
+open class KeyboardLayoutGuide: UILayoutGuide {
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -20,31 +39,24 @@ public class KeyboardLayoutGuide: UILayoutGuide {
     public override init() {
         super.init()
         
-        // Observe keyboardWillShow and keyboardWillHide notifications.
+        // Observe keyboardWillChangeFrame notifications
         let nc = NotificationCenter.default
         nc.addObserver(self,
-                       selector: #selector(keyboardWillShow(_:)),
-                       name: .UIKeyboardWillShow,
+                       selector: #selector(keyboardWillChangeFrame(_:)),
+                       name: .UIKeyboardWillChangeFrame,
                        object: nil)
-        nc.addObserver(self,
-                       selector: #selector(keyboardWillHide(_:)),
-                       name: .UIKeyboardWillHide,
-                       object: nil)
-        
-        // Observe owningView so that we can setup our layoutGuide
-        // once the user has called `view.addLayoutGuide`
-        token = observe(\.owningView) { object, _ in
-            if let view = object.owningView {
-                object.setUp(inView: view)
-            }
-        }
     }
     
-    private func setUp(inView view: UIView) {
-        heightAnchor.constraint(equalToConstant: 0).isActive = true
-        leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        let viewBottomAnchor: NSLayoutYAxisAnchor!
+    internal func setUp() {
+        guard let view = owningView else {
+            return
+        }
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: 0),
+            leftAnchor.constraint(equalTo: view.leftAnchor),
+            rightAnchor.constraint(equalTo: view.rightAnchor),
+            ])
+        let viewBottomAnchor: NSLayoutYAxisAnchor
         if #available(iOS 11.0, *) {
             viewBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor
         } else {
@@ -54,20 +66,14 @@ public class KeyboardLayoutGuide: UILayoutGuide {
     }
     
     @objc
-    func keyboardWillShow(_ note: Notification) {
+    private func keyboardWillChangeFrame(_ note: Notification) {
         if var height = note.keyboardHeight {
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, *), height > 0 {
                 height -= (owningView?.safeAreaInsets.bottom)!
             }
             heightConstraint?.constant = height
             animate(note)
         }
-    }
-    
-    @objc
-    func keyboardWillHide(_ note: Notification) {
-        heightConstraint?.constant = 0
-        animate(note)
     }
     
     private func animate(_ note: Notification) {
@@ -88,7 +94,7 @@ public class KeyboardLayoutGuide: UILayoutGuide {
 // MARK: - Helpers
 
 extension UILayoutGuide {
-    var heightConstraint: NSLayoutConstraint? {
+    internal var heightConstraint: NSLayoutConstraint? {
         guard let target = owningView else { return nil }
         for c in target.constraints {
             if let fi = c.firstItem as? UILayoutGuide, fi == self && c.firstAttribute == .height {
@@ -104,7 +110,9 @@ extension Notification {
         guard let v = userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
-        return v.cgRectValue.size.height
+        // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
+        // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
+        return UIScreen.main.bounds.height - v.cgRectValue.minY
     }
 }
 
