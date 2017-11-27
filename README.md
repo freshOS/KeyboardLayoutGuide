@@ -29,6 +29,10 @@ override func viewDidLoad() {
 }
 ```
 
+If you add your view in Interface Builder, don't forget to enable the "**Remove at build time**" checkbox for the bottom constraint:
+
+<img src="Images/constraint.png" width=258>
+
 ## Installation
 
 ### CocoaPods
