@@ -36,7 +36,10 @@ override func viewDidLoad() {
 To install `KeyboardLayoutGuide` via [CocoaPods](http://cocoapods.org), add the following line to your Podfile:
 
 ```
-pod 'Keyboard+LayoutGuide'
+target 'MyAppName' do
+  pod 'Keyboard+LayoutGuide'
+  use_frameworks!
+end
 ```
 
 ### Carthage
