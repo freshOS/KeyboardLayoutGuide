@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50F1DDE31FCC267900600110 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F1DDE21FCC267900600110 /* Extensions.swift */; };
 		9902DE341FBB2659009E0D48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9902DE331FBB2659009E0D48 /* AppDelegate.swift */; };
 		9902DE361FBB2659009E0D48 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9902DE351FBB2659009E0D48 /* ViewController.swift */; };
 		9902DE391FBB2659009E0D48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE371FBB2659009E0D48 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		50F1DDE21FCC267900600110 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9902DE301FBB2659009E0D48 /* KeyboardLayoutGuideExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KeyboardLayoutGuideExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9902DE331FBB2659009E0D48 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9902DE351FBB2659009E0D48 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			children = (
 				9902DE331FBB2659009E0D48 /* AppDelegate.swift */,
 				9902DE351FBB2659009E0D48 /* ViewController.swift */,
+				50F1DDE21FCC267900600110 /* Extensions.swift */,
 				9902DE371FBB2659009E0D48 /* Main.storyboard */,
 				9902DE3A1FBB2659009E0D48 /* Assets.xcassets */,
 				9902DE3C1FBB2659009E0D48 /* LaunchScreen.storyboard */,
@@ -197,6 +200,7 @@
 			files = (
 				9902DE361FBB2659009E0D48 /* ViewController.swift in Sources */,
 				9902DE341FBB2659009E0D48 /* AppDelegate.swift in Sources */,
+				50F1DDE31FCC267900600110 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
