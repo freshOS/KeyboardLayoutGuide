@@ -15,6 +15,8 @@
 - [x] Takes `safeArea` into account
 - [x] Only animates if view is fully on screen
 
+<img src="Images/demo.gif" width=250>
+
 ## How to use it
 
 Simply constrain your views to the KeyboardLayoutGuide's top anchor the way you would do natively:
