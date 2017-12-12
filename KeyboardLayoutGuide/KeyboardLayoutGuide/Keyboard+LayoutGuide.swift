@@ -56,21 +56,11 @@ open class KeyboardLayoutGuide: UILayoutGuide {
         guard let view = owningView else {
             return
         }
-        
-        if #available(iOS 11.0, *) {
-            NSLayoutConstraint.activate([
-                heightAnchor.constraint(equalToConstant: Keyboard.shared.currentHeight),
-                leftAnchor.constraint(equalTo: view.leftAnchor),
-                rightAnchor.constraint(equalTo: view.rightAnchor),
-                ])
-        } else {
-            NSLayoutConstraint.activate([
-                heightAnchor.constraint(equalToConstant: 0),
-                leftAnchor.constraint(equalTo: view.leftAnchor),
-                rightAnchor.constraint(equalTo: view.rightAnchor),
-                ])
-        }
-        
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: Keyboard.shared.currentHeight),
+            leftAnchor.constraint(equalTo: view.leftAnchor),
+            rightAnchor.constraint(equalTo: view.rightAnchor),
+        ])
         let viewBottomAnchor: NSLayoutYAxisAnchor
         if #available(iOS 11.0, *) {
             viewBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor
@@ -88,9 +78,7 @@ open class KeyboardLayoutGuide: UILayoutGuide {
             }
             heightConstraint?.constant = height
             animate(note)
-            if #available(iOS 11.0, *) {
-                Keyboard.shared.currentHeight = height
-            }
+            Keyboard.shared.currentHeight = height
         }
     }
     
