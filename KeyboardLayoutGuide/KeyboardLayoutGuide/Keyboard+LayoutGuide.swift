@@ -8,6 +8,11 @@
 
 import UIKit
 
+private class Keyboard {
+    static let shared = Keyboard()
+    var currentHeight: CGFloat = 0
+}
+
 public extension UIView {
     
     private struct AssociatedKeys {
@@ -52,10 +57,10 @@ open class KeyboardLayoutGuide: UILayoutGuide {
             return
         }
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: 0),
+            heightAnchor.constraint(equalToConstant: Keyboard.shared.currentHeight),
             leftAnchor.constraint(equalTo: view.leftAnchor),
             rightAnchor.constraint(equalTo: view.rightAnchor),
-            ])
+        ])
         let viewBottomAnchor: NSLayoutYAxisAnchor
         if #available(iOS 11.0, *) {
             viewBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor
@@ -73,6 +78,7 @@ open class KeyboardLayoutGuide: UILayoutGuide {
             }
             heightConstraint?.constant = height
             animate(note)
+            Keyboard.shared.currentHeight = height
         }
     }
     
