@@ -74,7 +74,9 @@ open class KeyboardLayoutGuide: UILayoutGuide {
     private func keyboardWillChangeFrame(_ note: Notification) {
         if var height = note.keyboardHeight {
             if #available(iOS 11.0, *), height > 0 {
-                height -= (owningView?.safeAreaInsets.bottom)!
+                if let keyWindow = UIApplication.shared.keyWindow {
+                    height -= keyWindow.safeAreaInsets.bottom
+                }
             }
             heightConstraint?.constant = height
             animate(note)
