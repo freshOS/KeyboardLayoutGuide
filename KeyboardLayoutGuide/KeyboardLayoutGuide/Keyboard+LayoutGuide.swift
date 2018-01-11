@@ -72,12 +72,18 @@ open class KeyboardLayoutGuide: UILayoutGuide {
     
     @objc
     private func keyboardWillChangeFrame(_ note: Notification) {
-        if var height = note.keyboardHeight {
-            if #available(iOS 11.0, *), height > 0 {
-                if let keyWindow = UIApplication.shared.keyWindow {
-                    height -= keyWindow.safeAreaInsets.bottom
+        if var height = note.keyboardHeight, let owningView = owningView {
+            if let window = owningView.window {
+                if #available(iOS 11.0, *) {
+                    height -= window.safeAreaInsets.bottom
                 }
+
+                let localBottomPoint = CGPoint(x: 0, y: owningView.frame.maxY)
+                let globalBottomPoint = owningView.convert(localBottomPoint, to: window)
+                let globalBottomOffset = window.frame.maxY - globalBottomPoint.y
+                height = max(0, height - globalBottomOffset)
             }
+
             heightConstraint?.constant = height
             animate(note)
             Keyboard.shared.currentHeight = height
