@@ -61,4 +61,4 @@ Just add `Keyboard+LayoutGuide.swift` to your Xcode project.
 
 ## License
 
-`KeyboardLayoutGuide` is available under the MIT license. See the LICENSE file for more info.
+`KeyboardLayoutGuide` is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
