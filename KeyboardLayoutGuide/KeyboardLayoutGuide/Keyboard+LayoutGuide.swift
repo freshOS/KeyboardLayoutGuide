@@ -118,7 +118,8 @@ extension Notification {
         }
         // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
         // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
-        return (UIApplication.shared.keyWindow?.bounds.height)! - v.cgRectValue.minY
+        let screenHeight = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
+        return screenHeight - v.cgRectValue.minY
     }
 }
 
