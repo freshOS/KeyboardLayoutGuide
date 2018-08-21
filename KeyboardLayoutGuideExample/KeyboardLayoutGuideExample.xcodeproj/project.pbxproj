@@ -13,6 +13,8 @@
 		9902DE391FBB2659009E0D48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE371FBB2659009E0D48 /* Main.storyboard */; };
 		9902DE3B1FBB2659009E0D48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE3A1FBB2659009E0D48 /* Assets.xcassets */; };
 		9902DE3E1FBB265A009E0D48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE3C1FBB2659009E0D48 /* LaunchScreen.storyboard */; };
+		99B97A8A212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9902DE4B1FBB2669009E0D48 /* KeyboardLayoutGuide.framework */; };
+		99B97A8B212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9902DE4B1FBB2669009E0D48 /* KeyboardLayoutGuide.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +39,28 @@
 			remoteGlobalIDString = 9902DE0A1FBB24A5009E0D48;
 			remoteInfo = KeyboardLayoutGuide;
 		};
+		99B97A8C212BFC4C00AFA6AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9902DE0A1FBB24A5009E0D48;
+			remoteInfo = KeyboardLayoutGuide;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		99B97A8E212BFC4C00AFA6AC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				99B97A8B212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		50F1DDE21FCC267900600110 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -56,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99B97A8A212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,11 +136,13 @@
 				9902DE2C1FBB2659009E0D48 /* Sources */,
 				9902DE2D1FBB2659009E0D48 /* Frameworks */,
 				9902DE2E1FBB2659009E0D48 /* Resources */,
+				99B97A8E212BFC4C00AFA6AC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				9902DE4F1FBB272B009E0D48 /* PBXTargetDependency */,
+				99B97A8D212BFC4C00AFA6AC /* PBXTargetDependency */,
 			);
 			name = KeyboardLayoutGuideExample;
 			productName = KeyboardLayoutGuideExample;
@@ -211,6 +237,11 @@
 			isa = PBXTargetDependency;
 			name = KeyboardLayoutGuide;
 			targetProxy = 9902DE4E1FBB272B009E0D48 /* PBXContainerItemProxy */;
+		};
+		99B97A8D212BFC4C00AFA6AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KeyboardLayoutGuide;
+			targetProxy = 99B97A8C212BFC4C00AFA6AC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -344,6 +375,7 @@
 		9902DE431FBB265A009E0D48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = KeyboardLayoutGuideExample/Info.plist;
@@ -358,6 +390,7 @@
 		9902DE441FBB265A009E0D48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = KeyboardLayoutGuideExample/Info.plist;
