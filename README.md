@@ -31,6 +31,11 @@ override func viewDidLoad() {
 }
 ```
 
+**Bonus**: if you're using [Stevia](https://github.com/freshOS/Stevia), this gets even more concise \o/
+```swift
+button.Bottom == view.keyboardLayoutGuide.Top
+```
+
 If you add your view in Interface Builder, don't forget to enable the "**Remove at build time**" checkbox for the bottom constraint:
 
 <img src="Images/constraint.png" width=258>
