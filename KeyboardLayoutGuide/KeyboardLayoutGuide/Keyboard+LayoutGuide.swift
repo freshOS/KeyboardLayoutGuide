@@ -48,7 +48,7 @@ open class KeyboardLayoutGuide: UILayoutGuide {
         let nc = NotificationCenter.default
         nc.addObserver(self,
                        selector: #selector(keyboardWillChangeFrame(_:)),
-                       name: .UIKeyboardWillChangeFrame,
+                       name: UIResponder.keyboardWillChangeFrameNotification,
                        object: nil)
     }
     
@@ -113,7 +113,7 @@ extension UILayoutGuide {
 
 extension Notification {
     var keyboardHeight: CGFloat? {
-        guard let v = userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else {
+        guard let v = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
         // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
