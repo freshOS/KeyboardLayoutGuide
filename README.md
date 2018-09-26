@@ -5,6 +5,7 @@
 ![Platform: iOS 9+](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org/pods/Keyboard+LayoutGuide)
+[![Build Status](https://app.bitrise.io/app/0c1de450af273bff/status.svg?token=UpT-2PFMgu6h_RMRJW7PMQ&branch=master)](https://app.bitrise.io/app/0c1de450af273bff)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/Stevia/blob/master/LICENSE)
 [![GitHub tag](https://img.shields.io/github/release/freshos/KeyboardLayoutGuide.svg)](https://github.com/freshOS/KeyboardLayoutGuide/releases)
 
