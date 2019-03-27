@@ -11,7 +11,6 @@ Pod::Spec.new do |s|
   s.source_files     = "KeyboardLayoutGuide/KeyboardLayoutGuide/*.swift"
   s.requires_arc     = true
   s.ios.deployment_target = "9"
-  s.swift_version = "5.0"
   s.description  = "An alternative approach to handling keyboard in iOS with Autolayout"
   s.module_name = 'KeyboardLayoutGuide'
 end
