@@ -111,6 +111,7 @@
 				9902DE071FBB24A5009E0D48 /* Frameworks */,
 				9902DE081FBB24A5009E0D48 /* Headers */,
 				9902DE091FBB24A5009E0D48 /* Resources */,
+				10B2D35122645E990028548F /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -196,6 +197,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		10B2D35122645E990028548F /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n/usr/local/bin/swiftlint autocorrect --quiet\n/usr/local/bin/swiftlint lint --reporter \"xcode\" --quiet \nelse\necho \"error: SwiftLint not installed, 'brew install swiftlint' or download from https://github.com/realm/SwiftLint\"\nexit -1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9902DE061FBB24A5009E0D48 /* Sources */ = {
