@@ -15,7 +15,7 @@ private class Keyboard {
 
 public extension UIView {
     
-    private struct AssociatedKeys {
+    private enum AssociatedKeys {
         static var keyboardLayoutGuide = "keyboardLayoutGuide"
     }
     
