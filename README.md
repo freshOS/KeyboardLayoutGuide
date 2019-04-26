@@ -1,7 +1,7 @@
 # ⌨️ KeyboardLayoutGuide
 *Apple's missing KeyboardLayoutGuide*
 
-[![Language: Swift 4](https://img.shields.io/badge/language-swift4-f48041.svg?style=flat)](https://developer.apple.com/swift)
+[![Language: Swift 5](https://img.shields.io/badge/language-swift5-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 9+](https://img.shields.io/badge/platform-iOS-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org/pods/Keyboard+LayoutGuide)
