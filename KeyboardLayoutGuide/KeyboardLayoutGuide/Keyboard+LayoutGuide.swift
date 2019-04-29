@@ -98,7 +98,7 @@ open class KeyboardLayoutGuide: UILayoutGuide {
 extension UILayoutGuide {
     internal var heightConstraint: NSLayoutConstraint? {
         return owningView?.constraints.first {
-            $0 == self && $0.firstAttribute == .height
+            $0.firstItem as? UILayoutGuide == self && $0.firstAttribute == .height
         }
     }
 }
