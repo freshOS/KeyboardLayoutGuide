@@ -13,54 +13,51 @@ private class Keyboard {
     var currentHeight: CGFloat = 0
 }
 
-public extension UIView {
-    
-    private struct AssociatedKeys {
+extension UIView {
+    private enum AssociatedKeys {
         static var keyboardLayoutGuide = "keyboardLayoutGuide"
     }
-    
+
     /// A layout guide representing the inset for the keyboard.
     /// Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard.
-    var keyboardLayoutGuide: KeyboardLayoutGuide {
-        get {
-            if let obj = objc_getAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide) as? KeyboardLayoutGuide {
-                return obj
-            }
-            let new = KeyboardLayoutGuide()
-            addLayoutGuide(new)
-            new.setUp()
-            objc_setAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide, new as Any, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            return new
+    public var keyboardLayoutGuide: KeyboardLayoutGuide {
+        if let obj = objc_getAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide) as? KeyboardLayoutGuide {
+            return obj
         }
+        let new = KeyboardLayoutGuide()
+        addLayoutGuide(new)
+        new.setUp()
+        objc_setAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide, new as Any, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return new
     }
 }
 
 open class KeyboardLayoutGuide: UILayoutGuide {
-    
+    @available(*, unavailable)
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public override init() {
+
+    public init(notificationCenter: NotificationCenter = NotificationCenter.default) {
         super.init()
-        
         // Observe keyboardWillChangeFrame notifications
-        let nc = NotificationCenter.default
-        nc.addObserver(self,
-                       selector: #selector(keyboardWillChangeFrame(_:)),
-                       name: UIResponder.keyboardWillChangeFrameNotification,
-                       object: nil)
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(keyboardWillChangeFrame(_:)),
+            name: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil
+        )
     }
-    
+
     internal func setUp() {
-        guard let view = owningView else {
-            return
-        }
-        NSLayoutConstraint.activate([
-            heightAnchor.constraint(equalToConstant: Keyboard.shared.currentHeight),
-            leftAnchor.constraint(equalTo: view.leftAnchor),
-            rightAnchor.constraint(equalTo: view.rightAnchor),
-        ])
+        guard let view = owningView else { return }
+        NSLayoutConstraint.activate(
+            [
+                heightAnchor.constraint(equalToConstant: Keyboard.shared.currentHeight),
+                leftAnchor.constraint(equalTo: view.leftAnchor),
+                rightAnchor.constraint(equalTo: view.rightAnchor),
+            ]
+        )
         let viewBottomAnchor: NSLayoutYAxisAnchor
         if #available(iOS 11.0, *) {
             viewBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor
@@ -69,21 +66,24 @@ open class KeyboardLayoutGuide: UILayoutGuide {
         }
         bottomAnchor.constraint(equalTo: viewBottomAnchor).isActive = true
     }
-    
+
     @objc
     private func keyboardWillChangeFrame(_ note: Notification) {
         if var height = note.keyboardHeight {
-            if #available(iOS 11.0, *), height > 0 {
-                height -= (owningView?.safeAreaInsets.bottom)!
+            if #available(iOS 11.0, *), height > 0, let bottom = owningView?.safeAreaInsets.bottom {
+                height -= bottom
             }
             heightConstraint?.constant = height
             animate(note)
             Keyboard.shared.currentHeight = height
         }
     }
-    
+
     private func animate(_ note: Notification) {
-        if isVisible(view: self.owningView!) {
+        if
+            let owningView = self.owningView,
+            isVisible(view: owningView)
+        {
             self.owningView?.layoutIfNeeded()
         } else {
             UIView.performWithoutAnimation {
@@ -91,35 +91,27 @@ open class KeyboardLayoutGuide: UILayoutGuide {
             }
         }
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
 }
 
 // MARK: - Helpers
 
 extension UILayoutGuide {
     internal var heightConstraint: NSLayoutConstraint? {
-        guard let target = owningView else { return nil }
-        for c in target.constraints {
-            if let fi = c.firstItem as? UILayoutGuide, fi == self && c.firstAttribute == .height {
-                return c
-            }
+        return owningView?.constraints.first {
+            $0 == self && $0.firstAttribute == .height
         }
-        return nil
     }
 }
 
 extension Notification {
     var keyboardHeight: CGFloat? {
-        guard let v = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+        guard let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
         // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
         // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
         let screenHeight = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
-        return screenHeight - v.cgRectValue.minY
+        return screenHeight - keyboardFrame.cgRectValue.minY
     }
 }
 
@@ -136,4 +128,3 @@ func isVisible(view: UIView) -> Bool {
     }
     return isVisible(view: view, inView: view.superview)
 }
-
