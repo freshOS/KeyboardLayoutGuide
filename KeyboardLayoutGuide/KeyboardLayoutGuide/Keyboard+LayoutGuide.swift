@@ -17,9 +17,9 @@ extension UIView {
     private enum AssociatedKeys {
         static var keyboardLayoutGuide = "keyboardLayoutGuide"
     }
-
-    /// A layout guide representing the inset for the keyboard.
-    /// Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard.
+    
+    // A layout guide representing the inset for the keyboard.
+    // Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard.
     public var keyboardLayoutGuide: KeyboardLayoutGuide {
         if let obj = objc_getAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide) as? KeyboardLayoutGuide {
             return obj
@@ -37,48 +37,53 @@ open class KeyboardLayoutGuide: UILayoutGuide {
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     public init(notificationCenter: NotificationCenter = NotificationCenter.default) {
         super.init()
         // Observe keyboardWillChangeFrame notifications
-        notificationCenter.addObserver(
-            self,
-            selector: #selector(keyboardWillChangeFrame(_:)),
-            name: UIResponder.keyboardWillChangeFrameNotification,
-            object: nil
-        )
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
     internal func setUp() {
         guard let view = owningView else { return }
-        NSLayoutConstraint.activate(
-            [
-                heightAnchor.constraint(equalToConstant: Keyboard.shared.currentHeight),
-                leftAnchor.constraint(equalTo: view.leftAnchor),
-                rightAnchor.constraint(equalTo: view.rightAnchor),
-            ]
-        )
+        
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: Keyboard.shared.currentHeight),
+            leftAnchor.constraint(equalTo: view.leftAnchor),
+            rightAnchor.constraint(equalTo: view.rightAnchor),
+        ])
+        
         let viewBottomAnchor: NSLayoutYAxisAnchor
+        
         if #available(iOS 11.0, *) {
             viewBottomAnchor = view.safeAreaLayoutGuide.bottomAnchor
         } else {
             viewBottomAnchor = view.bottomAnchor
         }
+        
         bottomAnchor.constraint(equalTo: viewBottomAnchor).isActive = true
     }
-
+    
     @objc
-    private func keyboardWillChangeFrame(_ note: Notification) {
-        if var height = note.keyboardHeight {
+    private func keyboardWillShow(_ notification: Notification) {
+        if var height = notification.keyboardHeight {
             if #available(iOS 11.0, *), height > 0, let bottom = owningView?.safeAreaInsets.bottom {
                 height -= bottom
             }
             heightConstraint?.constant = height
-            animate(note)
+            animate(notification)
             Keyboard.shared.currentHeight = height
         }
     }
-
+    
+    @objc
+    private func keyboardWillHide(_ notification: Notification) {
+            heightConstraint?.constant = 0
+            animate(notification)
+            Keyboard.shared.currentHeight = 0
+    }
+    
     private func animate(_ note: Notification) {
         if
             let owningView = self.owningView,
@@ -94,7 +99,6 @@ open class KeyboardLayoutGuide: UILayoutGuide {
 }
 
 // MARK: - Helpers
-
 extension UILayoutGuide {
     internal var heightConstraint: NSLayoutConstraint? {
         return owningView?.constraints.first {
@@ -108,10 +112,8 @@ extension Notification {
         guard let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
-        // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
-        // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
-        let screenHeight = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
-        return screenHeight - keyboardFrame.cgRectValue.minY
+        
+        return keyboardFrame.cgRectValue.height
     }
 }
 
