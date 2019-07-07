@@ -64,6 +64,13 @@ To install `KeyboardLayoutGuide` via [Carthage](https://github.com/Carthage/Cart
 github "freshos/KeyboardLayoutGuide"
 ```
 
+### Swift Package Manager
+
+To integrate `KeyboardLayoutGuide` via [SPM](https://swift.org/package-manager/) into your Xcode 11 project specify it in Project > Swift Packages:
+```
+https://github.com/freshOS/KeyboardLayoutGuide
+```
+
 ### Manually
 Just add `Keyboard+LayoutGuide.swift` to your Xcode project.
 
