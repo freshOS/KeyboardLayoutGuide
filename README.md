@@ -43,6 +43,14 @@ If you add your view in Interface Builder, don't forget to enable the "**Remove 
 
 <img src="Images/constraint.png" width=258>
 
+## Safe Area
+By default, KeyboardLayoutGuide will align your item with the bottom safe area.
+This is a behaviour that can be opt out with the `usesSafeArea` property.
+```swift
+// Opt out of safe area if needed.
+view.keyboardLayoutGuide.usesSafeArea = false
+```
+
 ## Installation
 
 ### CocoaPods
