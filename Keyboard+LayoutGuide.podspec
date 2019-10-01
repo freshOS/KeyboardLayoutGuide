@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Keyboard+LayoutGuide'
-  s.version          = "1.4.2"
+  s.version          = "1.5.0"
   s.summary          = "Apple's missing KeyboardLayoutGuide"
   s.homepage         = "https://github.com/freshOS/KeyboardLayoutGuide"
   s.license          = { :type => "MIT", :file => "LICENSE" }
@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "9"
   s.description  = "An alternative approach to handling keyboard in iOS with Autolayout"
   s.module_name = 'KeyboardLayoutGuide'
-  s.swift_versions = ['4', '4.1', '4.2', '5.0']
+  s.swift_versions = ['4', '4.1', '4.2', '5.0', '5.1']
 end
