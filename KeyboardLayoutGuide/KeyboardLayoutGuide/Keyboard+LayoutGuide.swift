@@ -14,20 +14,32 @@ internal class Keyboard {
 }
 
 extension UIView {
-    private enum AssociatedKeys {
-        static var keyboardLayoutGuide = "keyboardLayoutGuide"
+    private enum Identifiers {
+        static var usingSafeArea = "KeyboardLayoutGuideUsingSafeArea"
+        static var notUsingSafeArea = "KeyboardLayoutGuide"
     }
 
     /// A layout guide representing the inset for the keyboard.
-    /// Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard.
-    public var keyboardLayoutGuide: KeyboardLayoutGuide {
-        if let obj = objc_getAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide) as? KeyboardLayoutGuide {
-            return obj
+    /// Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard or the bottom of safe area.
+    public var keyboardLayoutGuide: UILayoutGuide {
+        getOrCreateKeyboardLayoutGuide(identifier: Identifiers.usingSafeArea, usesSafeArea: true)
+    }
+
+    /// A layout guide representing the inset for the keyboard.
+    /// Use this layout guide’s top anchor to create constraints pinning to the top of the keyboard or the bottom of the view.
+    public var keyboardLayoutGuideNoSafeArea: UILayoutGuide {
+        getOrCreateKeyboardLayoutGuide(identifier: Identifiers.notUsingSafeArea, usesSafeArea: false)
+    }
+
+    private func getOrCreateKeyboardLayoutGuide(identifier: String, usesSafeArea: Bool) -> UILayoutGuide {
+        if let existing = layoutGuides.first(where: { $0.identifier == identifier }) {
+            return existing
         }
         let new = KeyboardLayoutGuide()
+        new.usesSafeArea = usesSafeArea
+        new.identifier = identifier
         addLayoutGuide(new)
         new.setUp()
-        objc_setAssociatedObject(self, &AssociatedKeys.keyboardLayoutGuide, new as Any, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return new
     }
 }
