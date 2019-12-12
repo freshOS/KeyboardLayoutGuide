@@ -89,11 +89,14 @@ open class KeyboardLayoutGuide: UILayoutGuide {
 
     @objc
     private func keyboardWillChangeFrame(_ note: Notification) {
-        if var height = note.keyboardHeight {
+        if var height = note.keyboardHeight, let duration = note.animationDuration {
             if #available(iOS 11.0, *), usesSafeArea, height > 0, let bottom = owningView?.safeAreaInsets.bottom {
                 height -= bottom
             }
             heightConstraint?.constant = height
+            if duration > 0.0 {
+                animate(note)
+            }
             animate(note)
             Keyboard.shared.currentHeight = height
         }
@@ -132,6 +135,10 @@ extension Notification {
         // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
         let screenHeight = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
         return screenHeight - keyboardFrame.cgRectValue.minY
+    }
+    
+    var animationDuration: CGFloat? {
+        return self.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? CGFloat
     }
 }
 
