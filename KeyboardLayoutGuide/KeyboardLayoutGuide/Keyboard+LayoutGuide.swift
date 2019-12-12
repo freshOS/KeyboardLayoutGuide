@@ -97,7 +97,6 @@ open class KeyboardLayoutGuide: UILayoutGuide {
             if duration > 0.0 {
                 animate(note)
             }
-            animate(note)
             Keyboard.shared.currentHeight = height
         }
     }
