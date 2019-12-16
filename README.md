@@ -45,11 +45,7 @@ If you add your view in Interface Builder, don't forget to enable the "**Remove 
 
 ## Safe Area
 By default, KeyboardLayoutGuide will align your item with the bottom safe area.
-This is a behaviour that can be opt out with the `usesSafeArea` property.
-```swift
-// Opt out of safe area if needed.
-view.keyboardLayoutGuide.usesSafeArea = false
-```
+This is a behaviour that can be opt out by using `keyboardLayoutGuideNoSafeArea` instead of `keyboardLayoutGuide`.
 
 ## Installation
 
