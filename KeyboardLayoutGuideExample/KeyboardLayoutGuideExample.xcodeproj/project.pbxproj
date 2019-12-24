@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,40 +13,8 @@
 		9902DE391FBB2659009E0D48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE371FBB2659009E0D48 /* Main.storyboard */; };
 		9902DE3B1FBB2659009E0D48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE3A1FBB2659009E0D48 /* Assets.xcassets */; };
 		9902DE3E1FBB265A009E0D48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE3C1FBB2659009E0D48 /* LaunchScreen.storyboard */; };
-		99B97A8A212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9902DE4B1FBB2669009E0D48 /* KeyboardLayoutGuide.framework */; };
-		99B97A8B212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9902DE4B1FBB2669009E0D48 /* KeyboardLayoutGuide.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		996F7DB023B22B7200CC9446 /* KeyboardLayoutGuide in Frameworks */ = {isa = PBXBuildFile; productRef = 996F7DAF23B22B7200CC9446 /* KeyboardLayoutGuide */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		9902DE4A1FBB2669009E0D48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9902DE0B1FBB24A5009E0D48;
-			remoteInfo = KeyboardLayoutGuide;
-		};
-		9902DE4C1FBB2669009E0D48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9902DE141FBB24A5009E0D48;
-			remoteInfo = KeyboardLayoutGuideTests;
-		};
-		9902DE4E1FBB272B009E0D48 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9902DE0A1FBB24A5009E0D48;
-			remoteInfo = KeyboardLayoutGuide;
-		};
-		99B97A8C212BFC4C00AFA6AC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9902DE0A1FBB24A5009E0D48;
-			remoteInfo = KeyboardLayoutGuide;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		99B97A8E212BFC4C00AFA6AC /* Embed Frameworks */ = {
@@ -55,7 +23,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				99B97A8B212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,7 +38,6 @@
 		9902DE3A1FBB2659009E0D48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9902DE3D1FBB265A009E0D48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9902DE3F1FBB265A009E0D48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KeyboardLayoutGuide.xcodeproj; path = ../KeyboardLayoutGuide/KeyboardLayoutGuide.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99B97A8A212BFC4C00AFA6AC /* KeyboardLayoutGuide.framework in Frameworks */,
+				996F7DB023B22B7200CC9446 /* KeyboardLayoutGuide in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +55,6 @@
 		9902DE271FBB2659009E0D48 = {
 			isa = PBXGroup;
 			children = (
-				9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */,
 				9902DE321FBB2659009E0D48 /* KeyboardLayoutGuideExample */,
 				9902DE311FBB2659009E0D48 /* Products */,
 			);
@@ -117,15 +82,6 @@
 			path = KeyboardLayoutGuideExample;
 			sourceTree = "<group>";
 		};
-		9902DE461FBB2669009E0D48 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9902DE4B1FBB2669009E0D48 /* KeyboardLayoutGuide.framework */,
-				9902DE4D1FBB2669009E0D48 /* KeyboardLayoutGuideTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -141,10 +97,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				9902DE4F1FBB272B009E0D48 /* PBXTargetDependency */,
-				99B97A8D212BFC4C00AFA6AC /* PBXTargetDependency */,
 			);
 			name = KeyboardLayoutGuideExample;
+			packageProductDependencies = (
+				996F7DAF23B22B7200CC9446 /* KeyboardLayoutGuide */,
+			);
 			productName = KeyboardLayoutGuideExample;
 			productReference = 9902DE301FBB2659009E0D48 /* KeyboardLayoutGuideExample.app */;
 			productType = "com.apple.product-type.application";
@@ -174,37 +131,17 @@
 				Base,
 			);
 			mainGroup = 9902DE271FBB2659009E0D48;
+			packageReferences = (
+				996F7DAE23B22B7200CC9446 /* XCRemoteSwiftPackageReference "KeyboardLayoutGuide" */,
+			);
 			productRefGroup = 9902DE311FBB2659009E0D48 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 9902DE461FBB2669009E0D48 /* Products */;
-					ProjectRef = 9902DE451FBB2669009E0D48 /* KeyboardLayoutGuide.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				9902DE2F1FBB2659009E0D48 /* KeyboardLayoutGuideExample */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		9902DE4B1FBB2669009E0D48 /* KeyboardLayoutGuide.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KeyboardLayoutGuide.framework;
-			remoteRef = 9902DE4A1FBB2669009E0D48 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9902DE4D1FBB2669009E0D48 /* KeyboardLayoutGuideTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = KeyboardLayoutGuideTests.xctest;
-			remoteRef = 9902DE4C1FBB2669009E0D48 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9902DE2E1FBB2659009E0D48 /* Resources */ = {
@@ -231,19 +168,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9902DE4F1FBB272B009E0D48 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KeyboardLayoutGuide;
-			targetProxy = 9902DE4E1FBB272B009E0D48 /* PBXContainerItemProxy */;
-		};
-		99B97A8D212BFC4C00AFA6AC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KeyboardLayoutGuide;
-			targetProxy = 99B97A8C212BFC4C00AFA6AC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9902DE371FBB2659009E0D48 /* Main.storyboard */ = {
@@ -372,7 +296,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -386,7 +311,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4TATSTJ3J3;
 				INFOPLIST_FILE = KeyboardLayoutGuideExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshos.KeyboardLayoutGuideExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -402,7 +330,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4TATSTJ3J3;
 				INFOPLIST_FILE = KeyboardLayoutGuideExample/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshos.KeyboardLayoutGuideExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -432,6 +363,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		996F7DAE23B22B7200CC9446 /* XCRemoteSwiftPackageReference "KeyboardLayoutGuide" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/freshOS/KeyboardLayoutGuide";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		996F7DAF23B22B7200CC9446 /* KeyboardLayoutGuide */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 996F7DAE23B22B7200CC9446 /* XCRemoteSwiftPackageReference "KeyboardLayoutGuide" */;
+			productName = KeyboardLayoutGuide;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9902DE281FBB2659009E0D48 /* Project object */;
 }
