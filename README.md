@@ -49,7 +49,13 @@ This is a behaviour that can be opt out by using `keyboardLayoutGuideNoSafeArea`
 
 ## Installation
 
-### CocoaPods
+The Swift Package Manager (SPM) is now the official way to install `KeyboardLayoutGuide`. The other package managers are now deprecated as of `1.7.0` and won't be supported in future versions.
+
+#### Swift Package Manager
+
+`Xcode` > `File` > `Swift Packages` > `Add Package Dependency...` > `Paste` `https://github.com/freshOS/KeyboardLayoutGuide`
+
+### CocoaPods - Deprecated
 
 To install `KeyboardLayoutGuide` via [CocoaPods](http://cocoapods.org), add the following line to your Podfile:
 
@@ -60,19 +66,12 @@ target 'MyAppName' do
 end
 ```
 
-### Carthage
+### Carthage - Deprecated
 
 To install `KeyboardLayoutGuide` via [Carthage](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos), add the following line to your Cartfile:
 
 ```
 github "freshos/KeyboardLayoutGuide"
-```
-
-### Swift Package Manager
-
-To integrate `KeyboardLayoutGuide` via [SPM](https://swift.org/package-manager/) into your Xcode 11 project specify it in Project > Swift Packages:
-```
-https://github.com/freshOS/KeyboardLayoutGuide
 ```
 
 ### Manually
