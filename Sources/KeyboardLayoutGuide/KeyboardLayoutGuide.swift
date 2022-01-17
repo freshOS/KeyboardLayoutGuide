@@ -63,8 +63,15 @@ open class KeyboardLayoutGuide: UILayoutGuide {
         // Observe keyboardWillChangeFrame notifications
         notificationCenter.addObserver(
             self,
-            selector: #selector(keyboardWillChangeFrame(_:)),
+            selector: #selector(adjustKeyboard(_:)),
             name: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil
+        )
+        // Observe keyboardWillHide notifications
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(adjustKeyboard(_:)),
+            name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
     }
@@ -100,7 +107,7 @@ open class KeyboardLayoutGuide: UILayoutGuide {
     }
 
     @objc
-    private func keyboardWillChangeFrame(_ note: Notification) {
+    private func adjustKeyboard(_ note: Notification) {
         if var height = note.keyboardHeight, let duration = note.animationDuration {
             if #available(iOS 11.0, *), usesSafeArea, height > 0, let bottom = owningView?.safeAreaInsets.bottom {
                 height -= bottom
@@ -142,10 +149,15 @@ extension Notification {
         guard let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
-        // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
-        // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
-        let screenHeight = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
-        return screenHeight - keyboardFrame.cgRectValue.minY
+        
+        if name == UIResponder.keyboardWillHideNotification {
+            return 0.0
+        } else {
+            // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
+            // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
+            let screenHeight = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
+            return screenHeight - keyboardFrame.cgRectValue.minY
+        }
     }
     
     var animationDuration: CGFloat? {
