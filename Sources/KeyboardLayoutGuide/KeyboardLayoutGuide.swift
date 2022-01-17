@@ -47,7 +47,7 @@ extension UIView {
 open class KeyboardLayoutGuide: UILayoutGuide {
     public var usesSafeArea = true {
         didSet {
-            updateButtomAnchor()
+            updateBottomAnchor()
         }
     }
 
@@ -85,10 +85,10 @@ open class KeyboardLayoutGuide: UILayoutGuide {
                 rightAnchor.constraint(equalTo: view.rightAnchor),
             ]
         )
-        updateButtomAnchor()
+        updateBottomAnchor()
     }
 
-    func updateButtomAnchor() {
+    func updateBottomAnchor() {
         if let bottomConstraint = bottomConstraint {
             bottomConstraint.isActive = false
         }
