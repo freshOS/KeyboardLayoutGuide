@@ -13,7 +13,7 @@
 		9902DE391FBB2659009E0D48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE371FBB2659009E0D48 /* Main.storyboard */; };
 		9902DE3B1FBB2659009E0D48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE3A1FBB2659009E0D48 /* Assets.xcassets */; };
 		9902DE3E1FBB265A009E0D48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9902DE3C1FBB2659009E0D48 /* LaunchScreen.storyboard */; };
-		996F7DB023B22B7200CC9446 /* KeyboardLayoutGuide in Frameworks */ = {isa = PBXBuildFile; productRef = 996F7DAF23B22B7200CC9446 /* KeyboardLayoutGuide */; };
+		99A02FB22795D0B700F02247 /* KeyboardLayoutGuide in Frameworks */ = {isa = PBXBuildFile; productRef = 99A02FB12795D0B700F02247 /* KeyboardLayoutGuide */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +38,7 @@
 		9902DE3A1FBB2659009E0D48 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9902DE3D1FBB265A009E0D48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9902DE3F1FBB265A009E0D48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99A02FAF2795D0A800F02247 /* KeyboardLayoutGuide */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = KeyboardLayoutGuide; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				996F7DB023B22B7200CC9446 /* KeyboardLayoutGuide in Frameworks */,
+				99A02FB22795D0B700F02247 /* KeyboardLayoutGuide in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,8 +56,10 @@
 		9902DE271FBB2659009E0D48 = {
 			isa = PBXGroup;
 			children = (
+				99A02FAF2795D0A800F02247 /* KeyboardLayoutGuide */,
 				9902DE321FBB2659009E0D48 /* KeyboardLayoutGuideExample */,
 				9902DE311FBB2659009E0D48 /* Products */,
+				99A02FB02795D0B700F02247 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,6 +85,13 @@
 			path = KeyboardLayoutGuideExample;
 			sourceTree = "<group>";
 		};
+		99A02FB02795D0B700F02247 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -100,7 +110,7 @@
 			);
 			name = KeyboardLayoutGuideExample;
 			packageProductDependencies = (
-				996F7DAF23B22B7200CC9446 /* KeyboardLayoutGuide */,
+				99A02FB12795D0B700F02247 /* KeyboardLayoutGuide */,
 			);
 			productName = KeyboardLayoutGuideExample;
 			productReference = 9902DE301FBB2659009E0D48 /* KeyboardLayoutGuideExample.app */;
@@ -113,7 +123,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1320;
 				ORGANIZATIONNAME = freshos;
 				TargetAttributes = {
 					9902DE2F1FBB2659009E0D48 = {
@@ -132,7 +142,6 @@
 			);
 			mainGroup = 9902DE271FBB2659009E0D48;
 			packageReferences = (
-				996F7DAE23B22B7200CC9446 /* XCRemoteSwiftPackageReference "KeyboardLayoutGuide" */,
 			);
 			productRefGroup = 9902DE311FBB2659009E0D48 /* Products */;
 			projectDirPath = "";
@@ -214,6 +223,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -239,7 +249,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -274,6 +284,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -293,7 +304,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -364,21 +375,9 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		996F7DAE23B22B7200CC9446 /* XCRemoteSwiftPackageReference "KeyboardLayoutGuide" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/freshOS/KeyboardLayoutGuide";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.6.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		996F7DAF23B22B7200CC9446 /* KeyboardLayoutGuide */ = {
+		99A02FB12795D0B700F02247 /* KeyboardLayoutGuide */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 996F7DAE23B22B7200CC9446 /* XCRemoteSwiftPackageReference "KeyboardLayoutGuide" */;
 			productName = KeyboardLayoutGuide;
 		};
 /* End XCSwiftPackageProductDependency section */
