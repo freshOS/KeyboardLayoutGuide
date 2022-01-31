@@ -112,6 +112,22 @@ open class KeyboardLayoutGuide: UILayoutGuide {
             if #available(iOS 11.0, *), usesSafeArea, height > 0, let bottom = owningView?.safeAreaInsets.bottom {
                 height -= bottom
             }
+
+            // Factor in the non full screen views (iPad sheets)
+            if let activeWindow = UIApplication.shared.activeWindow, let owningView = owningView, height > 0 {
+                // Owning view's frame in the active window
+                let owningFrameInRoot = owningView.convert(owningView.frame, to: activeWindow)
+                // We have to ignore the part of the owning view that's outside of the active window
+                // (Modal presentation)
+                let intersectionFrame = activeWindow.frame.intersection(owningFrameInRoot)
+
+                let windowHeight = activeWindow.frame.height
+                let bottomDifference = windowHeight - (intersectionFrame.height + intersectionFrame.origin.y)
+
+                height -= bottomDifference
+            }
+
+
             heightConstraint?.constant = height
             if duration > 0.0 {
                 animate(note)
@@ -177,4 +193,24 @@ func isVisible(view: UIView) -> Bool {
         return false
     }
     return isVisible(view: view, inView: view.superview)
+}
+
+extension UIApplication {
+
+    // Finds the currently active window, This works similar to the
+    // deprecated `keyWindow` however it supports multi-window'd
+    // iPad apps
+    var activeWindow: UIWindow? {
+        if #available(iOS 13, *) {
+        return connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .map { $0 as? UIWindowScene }
+            .compactMap { $0 }
+            .first?.windows
+            .first { $0.isKeyWindow }
+        } else {
+            return keyWindow
+        }
+    }
+
 }
