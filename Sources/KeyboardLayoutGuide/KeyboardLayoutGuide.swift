@@ -122,12 +122,16 @@ open class KeyboardLayoutGuide: UILayoutGuide {
                 let intersectionFrame = activeWindow.frame.intersection(owningFrameInRoot)
 
                 let windowHeight = activeWindow.frame.height
-                let bottomDifference = windowHeight - (intersectionFrame.height + intersectionFrame.origin.y)
+				let bottomDifference = windowHeight - intersectionFrame.maxY
 
                 height -= bottomDifference
             }
 
-
+			guard height != .infinity else {
+				// When the app is running in multiple windows, it can happen that both windows are `foregroundActive`
+				// and the intersection frame's origin can become infinite as the owning view is in the other window and the app would crash.
+				return
+			}
             heightConstraint?.constant = height
             if duration > 0.0 {
                 animate(note)
