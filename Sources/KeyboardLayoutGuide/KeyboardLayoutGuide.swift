@@ -8,9 +8,13 @@
 
 import UIKit
 
-internal class Keyboard {
-    static let shared = Keyboard()
+public class Keyboard {
+    public static let shared = Keyboard()
     var currentHeight: CGFloat = 0
+
+    /// If you do know you're presenting a modal in either `.formSheet` style,
+    /// set this field to fix unexpected behavior of this Library.
+    public weak var presentedViewController: UIViewController?
 }
 
 extension UIView {
@@ -47,7 +51,7 @@ extension UIView {
 open class KeyboardLayoutGuide: UILayoutGuide {
     public var usesSafeArea = true {
         didSet {
-            updateBottomAnchor()
+            updateButtomAnchor()
         }
     }
 
@@ -63,15 +67,14 @@ open class KeyboardLayoutGuide: UILayoutGuide {
         // Observe keyboardWillChangeFrame notifications
         notificationCenter.addObserver(
             self,
-            selector: #selector(adjustKeyboard(_:)),
+            selector: #selector(keyboardWillChangeFrame(_:)),
             name: UIResponder.keyboardWillChangeFrameNotification,
             object: nil
         )
-        // Observe keyboardWillHide notifications
         notificationCenter.addObserver(
             self,
-            selector: #selector(adjustKeyboard(_:)),
-            name: UIResponder.keyboardWillHideNotification,
+            selector: #selector(keyboardDidChangeFrame(_:)),
+            name: UIResponder.keyboardDidChangeFrameNotification,
             object: nil
         )
     }
@@ -85,10 +88,10 @@ open class KeyboardLayoutGuide: UILayoutGuide {
                 rightAnchor.constraint(equalTo: view.rightAnchor),
             ]
         )
-        updateBottomAnchor()
+        updateButtomAnchor()
     }
 
-    func updateBottomAnchor() {
+    func updateButtomAnchor() {
         if let bottomConstraint = bottomConstraint {
             bottomConstraint.isActive = false
         }
@@ -107,7 +110,31 @@ open class KeyboardLayoutGuide: UILayoutGuide {
     }
 
     @objc
-    private func adjustKeyboard(_ note: Notification) {
+    private func keyboardDidChangeFrame(_ note: Notification) {
+        guard Keyboard.shared.presentedViewController != nil else {
+            return
+        }
+
+        if var height = note.keyboardHeight, let duration = note.animationDuration {
+            if #available(iOS 11.0, *), usesSafeArea, height > 0, let bottom = owningView?.safeAreaInsets.bottom {
+                height -= bottom
+            }
+            heightConstraint?.constant = height
+            if duration > 0.0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.animate(note)
+                }
+            }
+            Keyboard.shared.currentHeight = height
+        }
+    }
+
+    @objc
+    private func keyboardWillChangeFrame(_ note: Notification) {
+        guard Keyboard.shared.presentedViewController == nil else {
+            return
+        }
+
         if var height = note.keyboardHeight, let duration = note.animationDuration {
             if #available(iOS 11.0, *), usesSafeArea, height > 0, let bottom = owningView?.safeAreaInsets.bottom {
                 height -= bottom
@@ -149,15 +176,20 @@ extension Notification {
         guard let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
-        
-        if name == UIResponder.keyboardWillHideNotification {
-            return 0.0
-        } else {
-            // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
-            // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
-            let screenHeight = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
-            return screenHeight - keyboardFrame.cgRectValue.minY
+
+        let keyboardMinY = keyboardFrame.cgRectValue.minY
+
+        // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
+        // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
+        if let pvc = Keyboard.shared.presentedViewController,
+           let w = UIApplication.shared.keyWindow {
+
+            return w.convert(pvc.view.frame, from: pvc.view.superview).maxY - keyboardMinY
         }
+
+        let screenHeight: CGFloat = UIApplication.shared.keyWindow?.bounds.height ?? UIScreen.main.bounds.height
+
+        return screenHeight - keyboardMinY
     }
     
     var animationDuration: CGFloat? {
