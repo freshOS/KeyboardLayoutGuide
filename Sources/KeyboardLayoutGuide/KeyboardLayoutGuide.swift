@@ -51,7 +51,7 @@ extension UIView {
 open class KeyboardLayoutGuide: UILayoutGuide {
     public var usesSafeArea = true {
         didSet {
-            updateButtomAnchor()
+            updateBottomAnchor()
         }
     }
 
@@ -73,6 +73,12 @@ open class KeyboardLayoutGuide: UILayoutGuide {
         )
         notificationCenter.addObserver(
             self,
+            selector: #selector(keyboardWillChangeFrame(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+        notificationCenter.addObserver(
+            self,
             selector: #selector(keyboardDidChangeFrame(_:)),
             name: UIResponder.keyboardDidChangeFrameNotification,
             object: nil
@@ -88,10 +94,10 @@ open class KeyboardLayoutGuide: UILayoutGuide {
                 rightAnchor.constraint(equalTo: view.rightAnchor),
             ]
         )
-        updateButtomAnchor()
+        updateBottomAnchor()
     }
 
-    func updateButtomAnchor() {
+    func updateBottomAnchor() {
         if let bottomConstraint = bottomConstraint {
             bottomConstraint.isActive = false
         }
@@ -175,6 +181,10 @@ extension Notification {
     var keyboardHeight: CGFloat? {
         guard let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
+        }
+
+        if name == UIResponder.keyboardWillHideNotification {
+            return 0.0
         }
 
         let keyboardMinY = keyboardFrame.cgRectValue.minY
