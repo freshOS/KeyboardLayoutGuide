@@ -179,7 +179,7 @@ extension UILayoutGuide {
 
 extension Notification {
     var keyboardHeight: CGFloat? {
-        guard let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+        guard let keyboardEndFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
 
@@ -187,7 +187,21 @@ extension Notification {
             return 0.0
         }
 
-        let keyboardMinY = keyboardFrame.cgRectValue.minY
+        let keyboardMinY = keyboardEndFrame.cgRectValue.minY
+
+        let isLikelyFloating: Bool = {
+            if keyboardMinY == 0 { return true }
+
+            guard let keyboardBeginFrame = userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else {
+                return false
+            }
+
+            return keyboardBeginFrame.cgRectValue.minY == 0
+        }()
+
+        if isLikelyFloating {
+            return nil
+        }
 
         // Weirdly enough UIKeyboardFrameEndUserInfoKey doesn't have the same behaviour
         // in ios 10 or iOS 11 so we can't rely on v.cgRectValue.width
