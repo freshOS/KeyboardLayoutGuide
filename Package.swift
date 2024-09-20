@@ -1,9 +1,9 @@
-// swift-tools-version:5.1
+// swift-tools-version:6.0
 import PackageDescription
 
 let package = Package(
     name: "KeyboardLayoutGuide",
-    platforms: [.iOS(.v9)],
+    platforms: [.iOS(.v12)],
     products: [.library(name: "KeyboardLayoutGuide", targets: ["KeyboardLayoutGuide"])],
     targets: [.target(name: "KeyboardLayoutGuide")]
 )

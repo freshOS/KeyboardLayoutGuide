@@ -8,15 +8,15 @@
 
 import UIKit
 
-internal class Keyboard {
+@MainActor internal class Keyboard {
     static let shared = Keyboard()
     var currentHeight: CGFloat = 0
 }
 
 extension UIView {
     private enum Identifiers {
-        static var usingSafeArea = "KeyboardLayoutGuideUsingSafeArea"
-        static var notUsingSafeArea = "KeyboardLayoutGuide"
+        static let usingSafeArea = "KeyboardLayoutGuideUsingSafeArea"
+        static let notUsingSafeArea = "KeyboardLayoutGuide"
     }
 
     /// A layout guide representing the inset for the keyboard.
@@ -44,7 +44,7 @@ extension UIView {
     }
 }
 
-open class KeyboardLayoutGuide: UILayoutGuide {
+@MainActor open class KeyboardLayoutGuide: UILayoutGuide {
     public var usesSafeArea = true {
         didSet {
             updateBottomAnchor()
@@ -145,7 +145,8 @@ extension UILayoutGuide {
 }
 
 extension Notification {
-    var keyboardHeight: CGFloat? {
+    
+    @MainActor var keyboardHeight: CGFloat? {
         guard let keyboardFrame = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return nil
         }
@@ -167,7 +168,7 @@ extension Notification {
 
 // Credits to John Gibb for this nice helper :)
 // https://stackoverflow.com/questions/1536923/determine-if-uiview-is-visible-to-the-user
-func isVisible(view: UIView) -> Bool {
+@MainActor func isVisible(view: UIView) -> Bool {
     func isVisible(view: UIView, inView: UIView?) -> Bool {
         guard let inView = inView else { return true }
         let viewFrame = inView.convert(view.bounds, from: view)
