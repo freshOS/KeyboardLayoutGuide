@@ -36,8 +36,8 @@ class InvertedButton: UIButton {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
         updateBackgroundColor()
     }
     
